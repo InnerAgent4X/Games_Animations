@@ -1,8 +1,11 @@
+// Using adds libraries so I can use game objects and coroutines in Unity
 using UnityEngine;
 using System.Collections;
 
+// public class as opposed to private class lets the code inside the class be accessed by other scripts. If it were private class then nothing else could see or access it.
 public class SpawnManager : MonoBehaviour
 {
+    // Defining public variables lets me set them in the Unity. Private variables are only accessible inside this class or script
     [Tooltip("Enemy prefab must have an EnemyMovement component")]
     public GameObject enemyPrefab;
 
@@ -16,34 +19,45 @@ public class SpawnManager : MonoBehaviour
     public float spawnIntervalMax = 2.5f;
     public float initialDelay = 1.0f;
 
+    // Start is one of Unity's built-in methods that runs before the first frame, and it only runs once. 
     void Start()
     {
+        // Prints a warning if any of the variables are not set in the unity editor.
         if (enemyPrefab == null) Debug.LogWarning("SpawnManager: enemyPrefab not assigned");
         if (spawnPoints == null || spawnPoints.Length == 0) Debug.LogWarning("SpawnManager: spawnPoints empty");
         if (endPoints == null || endPoints.Length == 0) Debug.LogWarning("SpawnManager: endPoints empty");
+
+        // calls a subroutine.
         StartCoroutine(SpawnLoop());
     }
 
+    // Coroutines are methods that can pause execution and resume later. They run once per time they get called. (though in this case, the while loop makes it run forever). 
     IEnumerator SpawnLoop()
     {
+        //Yield lets the coroutine pause and the waitforseconds lets me add a real time delay.
         yield return new WaitForSeconds(initialDelay);
         while (true)
         {
+            //this block waits a random time between the min and max, then spawns an enemy from 
             float wait = Random.Range(spawnIntervalMin, spawnIntervalMax);
             yield return new WaitForSeconds(wait);
 
+            //secondary failsafe
             if (enemyPrefab == null) continue;
             if (spawnPoints == null || spawnPoints.Length == 0) continue;
 
+            // Randomly selects a spawn and end point.
             int index = Random.Range(0, spawnPoints.Length);
             if (endPoints == null || index >= endPoints.Length) continue;
 
+            //after selection, it checks sets the spawn and end points to the selected index, and if either is null, it skips this iteration of the loop
             Transform spawn = spawnPoints[index];
             Transform end = endPoints[index];
             if (spawn == null || end == null) continue;
 
+            // Spawns the enemy prefab at the specified location and rotation, then gives start and end points to the EnemyMovement script. 
             GameObject go = Instantiate(enemyPrefab, spawn.position, spawn.rotation);
-            var movement = go.GetComponent<EnemyMovement>();
+            EnemyMovement movement = go.GetComponent<EnemyMovement>();
             if (movement != null)
             {
                 movement.InitializePath(spawn.position, end.position);
