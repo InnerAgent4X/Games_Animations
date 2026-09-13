@@ -10,8 +10,8 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Step movement along the track")]
     public float stepDistance = 1.0f;     // how far each incremental step goes
-    public float stepDuration = 0.18f;    // how long the movement interpolation takes
-    public float stepDelay = 0.04f;       // small pause between steps
+    public float stepDuration = 0.0f;    // how long the movement interpolation takes
+    public float stepDelay = 1.0f;       // small pause between steps
     public float endReachThreshold = 0.05f; // when the end point is considered reached
 
     bool moving = false;

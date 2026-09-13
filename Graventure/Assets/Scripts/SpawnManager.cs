@@ -15,8 +15,8 @@ public class SpawnManager : MonoBehaviour
     [Tooltip("End points for each track (index matches spawnPoints)")]
     public Transform[] endPoints;
 
-    public float spawnIntervalMin = 1.0f;
-    public float spawnIntervalMax = 2.5f;
+    public int spawnIntervalMin = 1;
+    public int spawnIntervalMax = 2;
     public float initialDelay = 1.0f;
 
     // Start is one of Unity's built-in methods that runs before the first frame, and it only runs once. 
@@ -39,16 +39,11 @@ public class SpawnManager : MonoBehaviour
         while (true)
         {
             //this block waits a random time between the min and max, then spawns an enemy from 
-            float wait = Random.Range(spawnIntervalMin, spawnIntervalMax);
+            int wait = Random.Range(spawnIntervalMin, spawnIntervalMax);
             yield return new WaitForSeconds(wait);
-
-            //secondary failsafe
-            if (enemyPrefab == null) continue;
-            if (spawnPoints == null || spawnPoints.Length == 0) continue;
 
             // Randomly selects a spawn and end point.
             int index = Random.Range(0, spawnPoints.Length);
-            if (endPoints == null || index >= endPoints.Length) continue;
 
             //after selection, it checks sets the spawn and end points to the selected index, and if either is null, it skips this iteration of the loop
             Transform spawn = spawnPoints[index];
@@ -56,7 +51,7 @@ public class SpawnManager : MonoBehaviour
             if (spawn == null || end == null) continue;
 
             // Spawns the enemy prefab at the specified location and rotation, then gives start and end points to the EnemyMovement script. 
-            GameObject go = Instantiate(enemyPrefab, spawn.position, spawn.rotation);
+            GameObject go = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
             EnemyMovement movement = go.GetComponent<EnemyMovement>();
             if (movement != null)
             {
