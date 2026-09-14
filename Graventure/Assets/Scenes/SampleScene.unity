@@ -163,7 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fde343570f33354bb8ae933453ce4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
-  enemyPrefab: {fileID: 309741315242984509, guid: a98df49770bca7f4d8eee7898b74f395, type: 3}
+  PhysicalEnemy: {fileID: 309741315242984509, guid: a98df49770bca7f4d8eee7898b74f395, type: 3}
+  MagicEnemy: {fileID: 309741315242984509, guid: 5c8e9bbe3369e704bbeed37ea3e79000, type: 3}
   spawnPoints:
   - {fileID: 1191978264}
   - {fileID: 1664491619}
@@ -615,11 +616,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd3350efdea0e24ca1a7c6a46dd7467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  Score: 0
   PlayerActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  tracks:
+  P_ATK: {fileID: 5961734850026963738, guid: ad7b93971b401ad4c954d264321ff484, type: 3}
+  M_ATK: {fileID: 4132909531591519717, guid: e48ff8d6ec2ecce489b4063fcc1bede2, type: 3}
+  player_positions:
   - {fileID: 1916527204}
   - {fileID: 1079316236}
+  enemy_spawn:
+  - {fileID: 1191978264}
+  - {fileID: 1664491619}
 --- !u!65 &820646649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1219,6 +1224,53 @@ Transform:
   - {fileID: 431477435}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2095798216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2095798217}
+  - component: {fileID: 2095798218}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2095798217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095798216}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2095798218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095798216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea37d5dd45af1542b6ec2ef21f1ed74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  Score: 0
+  HealthyBoy: 3
+  isGameOver: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1229,3 +1281,4 @@ SceneRoots:
   - {fileID: 493122506}
   - {fileID: 1952025424}
   - {fileID: 820646652}
+  - {fileID: 2095798217}

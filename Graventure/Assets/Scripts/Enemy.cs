@@ -2,11 +2,14 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Collider))]
-public class EnemyMovement : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     // Path endpoints (a straight track between start and end)
     Vector3 pathStart;
     Vector3 pathEnd;
+
+    [SerializeField]
+    protected int health;
 
     [Header("Step movement along the track")]
     public float stepDistance = 1.0f;     // how far each incremental step goes
@@ -98,6 +101,17 @@ public class EnemyMovement : MonoBehaviour
     void OnReachedEnd()
     {
         // Default: destroy enemy. Replace with damage to player or pooling return.
+        if (GameManager.Instance.isGameOver == false) GameManager.Instance.HealthyBoy -= 1;
         Destroy(gameObject);
+    }
+
+    public void DealDamage()
+    {
+        health--;
+        if (health <= 0)
+        {
+            GameManager.Instance.Score += 1;
+            Destroy(gameObject);
+        }
     }
 }

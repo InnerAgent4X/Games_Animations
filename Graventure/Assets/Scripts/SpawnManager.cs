@@ -7,7 +7,8 @@ public class SpawnManager : MonoBehaviour
 {
     // Defining public variables lets me set them in the Unity. Private variables are only accessible inside this class or script
     [Tooltip("Enemy prefab must have an EnemyMovement component")]
-    public GameObject enemyPrefab;
+    public GameObject PhysicalEnemy;
+    public GameObject MagicEnemy;
 
     [Tooltip("Spawn points for each track (index matches endPoints)")]
     public Transform[] spawnPoints;
@@ -23,7 +24,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         // Prints a warning if any of the variables are not set in the unity editor.
-        if (enemyPrefab == null) Debug.LogWarning("SpawnManager: enemyPrefab not assigned");
+        if (PhysicalEnemy == null) Debug.LogWarning("SpawnManager: enemyPrefab not assigned");
         if (spawnPoints == null || spawnPoints.Length == 0) Debug.LogWarning("SpawnManager: spawnPoints empty");
         if (endPoints == null || endPoints.Length == 0) Debug.LogWarning("SpawnManager: endPoints empty");
 
@@ -36,7 +37,7 @@ public class SpawnManager : MonoBehaviour
     {
         //Yield lets the coroutine pause and the waitforseconds lets me add a real time delay.
         yield return new WaitForSeconds(initialDelay);
-        while (true)
+        while (true && GameManager.Instance.isGameOver == false)
         {
             //this block waits a random time between the min and max, then spawns an enemy from 
             int wait = Random.Range(spawnIntervalMin, spawnIntervalMax);
@@ -44,6 +45,7 @@ public class SpawnManager : MonoBehaviour
 
             // Randomly selects a spawn and end point.
             int index = Random.Range(0, spawnPoints.Length);
+            int enemyType = Random.Range(0, 2); // 0 for PhysicalEnemy, 1 for MagicEnemy
 
             //after selection, it checks sets the spawn and end points to the selected index, and if either is null, it skips this iteration of the loop
             Transform spawn = spawnPoints[index];
@@ -51,8 +53,8 @@ public class SpawnManager : MonoBehaviour
             if (spawn == null || end == null) continue;
 
             // Spawns the enemy prefab at the specified location and rotation, then gives start and end points to the EnemyMovement script. 
-            GameObject go = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
-            EnemyMovement movement = go.GetComponent<EnemyMovement>();
+            GameObject go = Instantiate(enemyType == 0 ? PhysicalEnemy : MagicEnemy, spawn.position, Quaternion.identity);
+            Enemy movement = go.GetComponent<Enemy>();
             if (movement != null)
             {
                 movement.InitializePath(spawn.position, end.position);

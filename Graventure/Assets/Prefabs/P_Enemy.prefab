@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5086204525928870254}
   - component: {fileID: 2494562596503235428}
-  - component: {fileID: 391737213484627009}
+  - component: {fileID: -8888473247487271247}
   m_Layer: 0
-  m_Name: Enemy
-  m_TagString: Untagged
+  m_Name: P_Enemy
+  m_TagString: PhysicalEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,15 +49,15 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &391737213484627009
+--- !u!114 &-8888473247487271247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,13 +66,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 309741315242984509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a68974164aca214db6b0254a7633ad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 63a2c3844fabbe54582b07f3e02fdb7f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  health: 1
   stepDistance: 0.5
   stepDuration: 0
   stepDelay: 1
-  endReachThreshold: 0.05
+  endReachThreshold: 0.75
 --- !u!1 &7003811416899197591
 GameObject:
   m_ObjectHideFlags: 0
