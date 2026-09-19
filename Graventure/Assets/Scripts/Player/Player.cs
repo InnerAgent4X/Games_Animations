@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
-using UnityEditor.XR;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.Instance.isGameOver)
+        if (!GameManager.Instance.isGameOver && !GameManager.Instance.isYouWin)
         {
             moveInput = moveAction.ReadValue<float>();
             movement();

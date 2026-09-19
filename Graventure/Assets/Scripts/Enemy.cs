@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [Header("Step movement along the track")]
     public float stepDistance = 1.0f;     // how far each incremental step goes
     public float stepDuration = 0.0f;    // how long the movement interpolation takes
-    public float stepDelay = 1.0f;       // small pause between steps
+    public float stepDelay;
     public float endReachThreshold = 0.05f; // when the end point is considered reached
 
     bool moving = false;
@@ -34,6 +34,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        stepDelay = GameManager.Instance.levelSettings.EnemySpawnRate;
+    }
+
     IEnumerator MoveAlongSegment()
     {
         // Safety: if start and end are the same, finish immediately
@@ -45,6 +50,11 @@ public class Enemy : MonoBehaviour
 
         while (true)
         {
+            if (GameManager.Instance.isYouWin)
+            {
+                Destroy(this.gameObject);
+            }
+
             // remaining distance to end along the segment
             Vector3 closest = ClosestPointOnSegment(pathStart, pathEnd, transform.position);
             float remaining = Vector3.Distance(closest, pathEnd);

@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
     {
         //Yield lets the coroutine pause and the waitforseconds lets me add a real time delay.
         yield return new WaitForSeconds(initialDelay);
-        while (true && GameManager.Instance.isGameOver == false)
+        while (true && !GameManager.Instance.isGameOver && !GameManager.Instance.isYouWin)
         {
             //this block waits a random time between the min and max, then spawns an enemy from 
             int wait = Random.Range(spawnIntervalMin, spawnIntervalMax);

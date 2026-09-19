@@ -1271,6 +1271,7 @@ MonoBehaviour:
   Score: 0
   HealthyBoy: 3
   isGameOver: 0
+  levelSettings: {fileID: 11400000, guid: 1d26951991310a94d869a21e3dcea97b, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
