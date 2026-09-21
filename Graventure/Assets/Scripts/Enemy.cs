@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     protected int health;
 
     [Header("Step movement along the track")]
-    public float stepDistance = 1.0f;     // how far each incremental step goes
+    public float stepDistance = 0.5f;     // how far each incremental step goes
     public float stepDuration = 0.0f;    // how long the movement interpolation takes
     public float stepDelay;
     public float endReachThreshold = 0.05f; // when the end point is considered reached

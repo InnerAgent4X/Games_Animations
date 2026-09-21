@@ -153,5 +153,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510be06a70e8c6b4e9ad9c4efaff9e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PAttack
-  speed: 25
+  speed: 15
   distance: 3.15

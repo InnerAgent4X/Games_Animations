@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b645cb83ee7a0b448b998bf9a9f7754, type: 3}
   m_Name: TestLevel
   m_EditorClassIdentifier: Assembly-CSharp::Level_Settings
-  VictoryScore: 10
+  VictoryScore: 50
   PlayerHealth: 5
   EnemySpawnRate: 1
