@@ -163,8 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fde343570f33354bb8ae933453ce4fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnManager
-  PhysicalEnemy: {fileID: 309741315242984509, guid: a98df49770bca7f4d8eee7898b74f395, type: 3}
-  MagicEnemy: {fileID: 309741315242984509, guid: 5c8e9bbe3369e704bbeed37ea3e79000, type: 3}
+  enemies:
+  - {fileID: 309741315242984509, guid: a98df49770bca7f4d8eee7898b74f395, type: 3}
+  - {fileID: 309741315242984509, guid: 5c8e9bbe3369e704bbeed37ea3e79000, type: 3}
+  - {fileID: 309741315242984509, guid: 6ce1390e181d46e42acc17949504bd7a, type: 3}
   spawnPoints:
   - {fileID: 1191978264}
   - {fileID: 1664491619}
@@ -1271,6 +1273,7 @@ MonoBehaviour:
   Score: 0
   HealthyBoy: 3
   isGameOver: 0
+  isYouWin: 0
   levelSettings: {fileID: 11400000, guid: 1d26951991310a94d869a21e3dcea97b, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

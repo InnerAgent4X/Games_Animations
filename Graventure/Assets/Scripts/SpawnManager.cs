@@ -7,8 +7,7 @@ public class SpawnManager : MonoBehaviour
 {
     // Defining public variables lets me set them in the Unity. Private variables are only accessible inside this class or script
     [Tooltip("Enemy prefab must have an EnemyMovement component")]
-    public GameObject PhysicalEnemy;
-    public GameObject MagicEnemy;
+    public GameObject[] enemies; // Array to hold different enemy prefabs
 
     [Tooltip("Spawn points for each track (index matches endPoints)")]
     public Transform[] spawnPoints;
@@ -24,7 +23,6 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         // Prints a warning if any of the variables are not set in the unity editor.
-        if (PhysicalEnemy == null) Debug.LogWarning("SpawnManager: enemyPrefab not assigned");
         if (spawnPoints == null || spawnPoints.Length == 0) Debug.LogWarning("SpawnManager: spawnPoints empty");
         if (endPoints == null || endPoints.Length == 0) Debug.LogWarning("SpawnManager: endPoints empty");
 
@@ -45,7 +43,7 @@ public class SpawnManager : MonoBehaviour
 
             // Randomly selects a spawn and end point.
             int index = Random.Range(0, spawnPoints.Length);
-            int enemyType = Random.Range(0, 2); // 0 for PhysicalEnemy, 1 for MagicEnemy
+            int enemyType = Random.Range(0, enemies.Length);
 
             //after selection, it checks sets the spawn and end points to the selected index, and if either is null, it skips this iteration of the loop
             Transform spawn = spawnPoints[index];
@@ -53,7 +51,7 @@ public class SpawnManager : MonoBehaviour
             if (spawn == null || end == null) continue;
 
             // Spawns the enemy prefab at the specified location and rotation, then gives start and end points to the EnemyMovement script. 
-            GameObject go = Instantiate(enemyType == 0 ? PhysicalEnemy : MagicEnemy, spawn.position, Quaternion.identity);
+            GameObject go = Instantiate(enemies[enemyType], spawn.position, Quaternion.identity);
             Enemy movement = go.GetComponent<Enemy>();
             if (movement != null)
             {

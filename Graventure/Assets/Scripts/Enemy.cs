@@ -8,8 +8,6 @@ public class Enemy : MonoBehaviour
     Vector3 pathStart;
     Vector3 pathEnd;
 
-    [SerializeField]
-    protected int health;
 
     [Header("Step movement along the track")]
     public float stepDistance = 0.5f;     // how far each incremental step goes
@@ -115,12 +113,25 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void DealDamage()
+
+    public DamageType[] requiredSequence;
+
+    private int currentIndex = 0;
+
+    public void TakeDamage(DamageType attackType)
     {
-        health--;
-        if (health <= 0)
+        if (attackType != requiredSequence[currentIndex])
         {
-            GameManager.Instance.Score += 1;
+            // Wrong attack type, reset sequence
+            currentIndex = 0;
+            return;
+        }
+
+        currentIndex++;
+
+        if (currentIndex >= requiredSequence.Length)
+        {
+            // Sequence completed, destroy enemy
             Destroy(gameObject);
         }
     }

@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086204525928870254}
-  - component: {fileID: 2494562596503235428}
-  - component: {fileID: 3321295860921975243}
+  - component: {fileID: -347866609219937858}
+  - component: {fileID: 7797491273692749779}
   m_Layer: 0
   m_Name: M_Enemy
-  m_TagString: MagicEnemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,8 +34,8 @@ Transform:
   - {fileID: 5964864434638167470}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2494562596503235428
-CapsuleCollider:
+--- !u!65 &-347866609219937858
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -52,12 +52,10 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.35
-  m_Height: 1
-  m_Direction: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3321295860921975243
+--- !u!114 &7797491273692749779
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,14 +64,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 309741315242984509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ab2fbcd443c10e49b06c672892ff602, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a68974164aca214db6b0254a7633ad3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MagicEnemies
-  health: 1
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
   stepDistance: 0.5
   stepDuration: 0
-  stepDelay: 1
-  endReachThreshold: 0.75
+  stepDelay: 0
+  endReachThreshold: 0.05
+  requiredSequence: 01000000
 --- !u!1 &7003811416899197591
 GameObject:
   m_ObjectHideFlags: 0

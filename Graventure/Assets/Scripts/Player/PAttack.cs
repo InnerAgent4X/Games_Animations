@@ -5,6 +5,8 @@ public class PAttack : MonoBehaviour
     public float speed = 50f;
     public float distance = 2f;
 
+    public DamageType damageType = DamageType.Physical;
+
     private Vector3 startPosition;
 
     void Start()
@@ -24,14 +26,14 @@ public class PAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PhysicalEnemy"))
+        if (other.CompareTag("Enemy"))
         {
-            // Call Enemy's TakeDamage method
-            other.GetComponent<PhysicalEnemies>().DealDamage();
-            Destroy(gameObject);
-        }
-        else if (other.CompareTag("MagicEnemy"))
-        {
+            Enemy enemy = other.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damageType);
+            }
             Destroy(gameObject);
         }
     }

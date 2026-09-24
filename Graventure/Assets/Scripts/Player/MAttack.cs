@@ -5,6 +5,8 @@ public class MAttack : MonoBehaviour
     public float speed = 50f;
     public float distance = 2f;
 
+    public DamageType damageType = DamageType.Magical;
+
     private Vector3 startPosition;
 
     void Start()
@@ -24,14 +26,14 @@ public class MAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("MagicEnemy"))
+        if (other.CompareTag("Enemy"))
         {
-            // Call Enemy's TakeDamage method
-            other.GetComponent<MagicEnemies>().DealDamage();
-            Destroy(gameObject);
-        }
-        else if (other.CompareTag("PhysicalEnemy"))
-        {
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damageType);
+                Destroy(gameObject);
+            }
             Destroy(gameObject);
         }
     }
