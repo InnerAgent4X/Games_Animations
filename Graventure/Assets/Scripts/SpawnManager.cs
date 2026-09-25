@@ -18,6 +18,17 @@ public class SpawnManager : MonoBehaviour
     public int spawnIntervalMin = 1;
     public int spawnIntervalMax = 2;
     public float initialDelay = 1.0f;
+    [Header("Beat sync")]
+    [Tooltip("When true, spawn events are driven by GameManager beat events instead of a timed loop.")]
+    public bool spawnOnBeat = true;
+
+    [Tooltip("Spawn every N beats when spawnOnBeat is enabled.")]
+    public int spawnEveryNBeats = 4;
+
+    [Tooltip("Offset in beats before starting to spawn (0 = start immediately).")]
+    public int beatOffset = 0;
+
+    bool subscribedToBeat = false;
 
     // Start is one of Unity's built-in methods that runs before the first frame, and it only runs once. 
     void Start()
@@ -26,8 +37,31 @@ public class SpawnManager : MonoBehaviour
         if (spawnPoints == null || spawnPoints.Length == 0) Debug.LogWarning("SpawnManager: spawnPoints empty");
         if (endPoints == null || endPoints.Length == 0) Debug.LogWarning("SpawnManager: endPoints empty");
 
-        // calls a subroutine.
-        StartCoroutine(SpawnLoop());
+        // If using beat-driven spawning, delay subscription until after initialDelay so gameplay has time to start
+        if (spawnOnBeat)
+        {
+            StartCoroutine(DelayedSubscribe());
+        }
+        else
+        {
+            // calls a subroutine.
+            StartCoroutine(SpawnLoop());
+        }
+    }
+
+    IEnumerator DelayedSubscribe()
+    {
+        yield return new WaitForSeconds(initialDelay);
+        TrySubscribe();
+    }
+
+    void TrySubscribe()
+    {
+        if (spawnOnBeat && !subscribedToBeat && GameManager.Instance != null)
+        {
+            GameManager.Instance.OnBeat += OnBeat;
+            subscribedToBeat = true;
+        }
     }
 
     // Coroutines are methods that can pause execution and resume later. They run once per time they get called. (though in this case, the while loop makes it run forever). 
@@ -57,6 +91,47 @@ public class SpawnManager : MonoBehaviour
             {
                 movement.InitializePath(spawn.position, end.position);
             }
+        }
+    }
+
+    void OnEnable()
+    {
+        // Try to subscribe immediately in case GameManager already exists
+        TrySubscribe();
+    }
+
+    void OnDisable()
+    {
+        if (subscribedToBeat && GameManager.Instance != null)
+        {
+            GameManager.Instance.OnBeat -= OnBeat;
+            subscribedToBeat = false;
+        }
+    }
+
+    void OnBeat(int beatIndex)
+    {
+        if (!spawnOnBeat) return;
+        if (GameManager.Instance == null) return;
+        if (GameManager.Instance.isGameOver || GameManager.Instance.isYouWin) return;
+
+        // Only spawn on configured beat intervals
+        if (((beatIndex - beatOffset) % spawnEveryNBeats) != 0) return;
+
+        // Randomly select spawn and enemy and perform spawn (same as SpawnLoop body)
+        if (spawnPoints == null || spawnPoints.Length == 0) return;
+        if (endPoints == null || endPoints.Length == 0) return;
+        int index = Random.Range(0, spawnPoints.Length);
+        int enemyType = Random.Range(0, enemies.Length);
+        Transform spawn = spawnPoints[index];
+        Transform end = endPoints[index];
+        if (spawn == null || end == null) return;
+
+        GameObject go = Instantiate(enemies[enemyType], spawn.position, Quaternion.identity);
+        Enemy movement = go.GetComponent<Enemy>();
+        if (movement != null)
+        {
+            movement.InitializePath(spawn.position, end.position);
         }
     }
 }

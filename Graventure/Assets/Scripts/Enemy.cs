@@ -8,6 +8,16 @@ public class Enemy : MonoBehaviour
     Vector3 pathStart;
     Vector3 pathEnd;
 
+    public bool instantOnBeat = true;
+    int lastBeatIndex = -1;
+    // If true, this enemy movement is driven by global beat events from GameManager
+    public bool useBeatMovement = true;
+
+    // Fields used for smooth interpolation between beats
+    Vector3 beatFrom;
+    Vector3 beatTo;
+    int assignedBeat = -1;
+
 
     [Header("Step movement along the track")]
     public float stepDistance = 0.5f;     // how far each incremental step goes
@@ -28,7 +38,106 @@ public class Enemy : MonoBehaviour
         if (!moving)
         {
             moving = true;
-            StartCoroutine(MoveAlongSegment());
+            // Start the legacy coroutine only when not using beat-driven movement
+            if (!useBeatMovement)
+            {
+                StartCoroutine(MoveAlongSegment());
+            }
+        }
+    }
+
+    void OnEnable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnBeat += UseBeat;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnBeat -= UseBeat;
+        }
+    }
+
+    void UseBeat(int beatCount)
+    {
+        // Safety: if reached end or game finished, ignore
+        if (GameManager.Instance == null) return;
+        if (GameManager.Instance.isYouWin)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        // If not using beat-driven movement, do nothing
+        if (!useBeatMovement) return;
+
+        // remaining distance to end along the segment (reuse same math as coroutine)
+        Vector3 closest = ClosestPointOnSegment(pathStart, pathEnd, transform.position);
+        float remaining = Vector3.Distance(closest, pathEnd);
+        if (remaining <= endReachThreshold)
+        {
+            transform.position = pathEnd;
+            OnReachedEnd();
+            return;
+        }
+
+        // compute next target along the segment
+        Vector3 dir = (pathEnd - closest).normalized;
+        float moveDist = Mathf.Min(stepDistance, remaining);
+        Vector3 target = transform.position + dir * moveDist;
+
+        // Project target back onto the segment to ensure we stay constrained
+        target = ClosestPointOnSegment(pathStart, pathEnd, target);
+
+        // Face movement direction
+        Vector3 faceDir = (target - transform.position);
+        if (faceDir.sqrMagnitude > 0.0001f)
+        {
+            Quaternion look = Quaternion.LookRotation(faceDir.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, look, 0.25f);
+        }
+
+        if (instantOnBeat)
+        {
+            // immediate step on beat
+            transform.position = target;
+        }
+        else
+        {
+            // prepare interpolation for Update-driven smooth movement
+            beatFrom = transform.position;
+            beatTo = target;
+            assignedBeat = beatCount;
+        }
+    }
+
+    void Update()
+    {
+        // Smoothly interpolate between beatFrom and beatTo using GameManager's beat progress
+        if (!instantOnBeat && assignedBeat >= 0 && GameManager.Instance != null)
+        {
+            // Assume GameManager exposes GetBeatProgress() returning 0..1
+            float p = 0f;
+            try
+            {
+                p = GameManager.Instance.GetBeatProgress();
+            }
+            catch
+            {
+                // If method doesn't exist, fall back to simple timing based on stepDuration
+                p = Mathf.Clamp01(Time.deltaTime / Mathf.Max(0.0001f, stepDuration));
+            }
+
+            transform.position = Vector3.Lerp(beatFrom, beatTo, p);
+
+            if (p >= 1f - 1e-4f)
+            {
+                assignedBeat = -1;
+            }
         }
     }
 

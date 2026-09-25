@@ -67,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a68974164aca214db6b0254a7633ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  instantOnBeat: 0
+  useBeatMovement: 1
   stepDistance: 0.5
   stepDuration: 0
   stepDelay: 0

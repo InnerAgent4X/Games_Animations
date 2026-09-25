@@ -176,6 +176,9 @@ MonoBehaviour:
   spawnIntervalMin: 1
   spawnIntervalMax: 2
   initialDelay: 1
+  spawnOnBeat: 1
+  spawnEveryNBeats: 1
+  beatOffset: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,6 +1273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea37d5dd45af1542b6ec2ef21f1ed74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  bpm: 80
+  subdivision: 1
   Score: 0
   HealthyBoy: 3
   isGameOver: 0
