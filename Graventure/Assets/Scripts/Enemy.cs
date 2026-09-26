@@ -233,6 +233,7 @@ public class Enemy : MonoBehaviour
         {
             // Wrong attack type, reset sequence
             currentIndex = 0;
+            GameManager.Instance.AttackPenalty();
             return;
         }
 
@@ -241,6 +242,7 @@ public class Enemy : MonoBehaviour
         if (currentIndex >= requiredSequence.Length)
         {
             // Sequence completed, destroy enemy
+            GameManager.Instance.Score += 1;
             Destroy(gameObject);
         }
     }

@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     private bool moveHold = false;
     private bool attackHold = false;
     private bool magicHold = false;
+    private bool canAttack = true;
 
     private InputAction moveAction;
     private InputAction attackPhysical;
@@ -53,8 +54,8 @@ public class Player : MonoBehaviour
         {
             moveInput = moveAction.ReadValue<float>();
             movement();
-            if (attackPhysical.WasPressedThisFrame()) PhysicalAttack();
-            if (attackMagic.WasPressedThisFrame()) MagicAttack();
+            if (attackPhysical.WasPressedThisFrame() && canAttack) PhysicalAttack();
+            if (attackMagic.WasPressedThisFrame() && canAttack) MagicAttack();
         }
     }
 
@@ -81,6 +82,18 @@ public class Player : MonoBehaviour
         moveHold = true;
         yield return new WaitUntil(() => moveInput == 0);
         moveHold = false;
+    }
+    
+    public void cooldown()
+    {
+        StartCoroutine(AttackPenalty());
+    }
+
+    IEnumerator AttackPenalty()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(GameManager.Instance.levelSettings.PenaltyDuration);
+        canAttack = true;
     }
 
     void PhysicalAttack()
