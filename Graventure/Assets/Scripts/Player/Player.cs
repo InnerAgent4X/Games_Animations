@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using System;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
 
     public Transform[] player_positions;
     public Transform[] enemy_spawn;
-
+    public Slider moveSlider;
 
     private float moveInput;
     private bool moveHold = false;
@@ -52,7 +53,8 @@ public class Player : MonoBehaviour
     {
         if (!GameManager.Instance.isGameOver && !GameManager.Instance.isYouWin)
         {
-            moveInput = moveAction.ReadValue<float>();
+            moveInput = moveSlider.value;
+            //moveInput = moveAction.ReadValue<float>();
             movement();
             if (attackPhysical.WasPressedThisFrame() && canAttack) PhysicalAttack();
             if (attackMagic.WasPressedThisFrame() && canAttack) MagicAttack();
@@ -69,7 +71,7 @@ public class Player : MonoBehaviour
                 transform.position = player_positions[1].position;
                 transform.LookAt(enemy_spawn[1].position);
             }
-            else if (moveInput < 0)
+            else if (moveInput <= 0)
             {
                 transform.position = player_positions[0].position;
                 transform.LookAt(enemy_spawn[0].position);
