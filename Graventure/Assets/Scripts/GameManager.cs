@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; set; }
 
-    public float bpm = 60f;
+    public float bpm;
 
     public int subdivision = 1;
     public event Action<int> OnBeat; // Event that is triggered on each beat
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         HealthyBoy = levelSettings.PlayerHealth;
-
+        bpm = levelSettings.EnemySpeed;
         // Initialize DSP timing so beats start in sync with AudioSettings.dspTime
         // small startup offset to avoid firing many beats immediately
         dspStartTime = AudioSettings.dspTime + 0.1f;

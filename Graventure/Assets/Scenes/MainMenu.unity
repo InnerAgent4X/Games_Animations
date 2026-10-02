@@ -1298,6 +1298,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
   levelPanel: {fileID: 427894104}
   levelInfoPanel: {fileID: 1800436434}
+  levelSettings:
+  - {fileID: 11400000, guid: 1d26951991310a94d869a21e3dcea97b, type: 2}
+  - {fileID: 11400000, guid: 9d39f2d2c6941984c8f54da90a792031, type: 2}
+  - {fileID: 11400000, guid: 17ba01f96a7f94b428fb8000b3754e63, type: 2}
+  - {fileID: 11400000, guid: f4ee0ce8ab7d37b40b904d0738595a63, type: 2}
+  - {fileID: 11400000, guid: 885e8afb6848d2c45b2aec1239e25814, type: 2}
+  - {fileID: 11400000, guid: d585504d084c1464493f647eb619172a, type: 2}
+  - {fileID: 11400000, guid: 7cac8b9e399a7ca45b6851e668423ad7, type: 2}
+  - {fileID: 11400000, guid: 2f410be2d132bf741a43851add7bd470, type: 2}
+  - {fileID: 11400000, guid: edce1b3c1db28034a90ebedb113f74a2, type: 2}
+  - {fileID: 11400000, guid: 1638b05258a6a324fbec489ab634fba4, type: 2}
+  - {fileID: 11400000, guid: 28c186033f5d0ab488f5b48de9dd4569, type: 2}
+  - {fileID: 11400000, guid: 7e71832319622f14c8329b626f8e8cc4, type: 2}
   levelNameText: {fileID: 1310364672}
   requiredScoreText: {fileID: 1756477473}
   healthText: {fileID: 1932034613}

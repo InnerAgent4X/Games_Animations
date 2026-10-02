@@ -7,6 +7,8 @@ public class MenuManager : MonoBehaviour
     public GameObject levelPanel;
     public GameObject levelInfoPanel;
 
+    public Level_Settings[] levelSettings;
+
     public TextMeshProUGUI levelNameText;
     public TextMeshProUGUI requiredScoreText;
     public TextMeshProUGUI healthText;
@@ -31,9 +33,9 @@ public class MenuManager : MonoBehaviour
     {
         levelNameText.text = "Level " + (levelIndex);
         selectedLevelIndex = levelIndex;
-        //requiredScoreText.text = "Required Score: " + (scriptableObj(levelSettings));
-        //healthText.text = "Health: " + (scriptableObj(levelSettings));
-        //enemySpeedText.text = "Enemy Speed: " + (scriptableObj(levelSettings));
+        requiredScoreText.text = "Required Score: " + levelSettings[levelIndex -1].VictoryScore;
+        healthText.text = "Health: " + levelSettings[levelIndex -1].PlayerHealth;
+        enemySpeedText.text = "Enemy Speed: " + levelSettings[levelIndex -1].EnemySpeed;
 
         levelInfoPanel.SetActive(true);
     }
