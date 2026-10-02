@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     private float moveInput;
     private bool moveHold = false;
-    private bool attackHold = false;
+    private bool physicalHold = false;
     private bool magicHold = false;
     private bool canAttack = true;
 
@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
 
     void PhysicalAttack()
     {
-        if (!attackHold)
+        if (!physicalHold)
         {
             StartCoroutine(PhysicalAttackPause());
             Instantiate(P_ATK, transform.position, transform.rotation);
@@ -107,9 +107,9 @@ public class Player : MonoBehaviour
 
     IEnumerator PhysicalAttackPause()
     {
-        attackHold = true;
-        yield return new WaitUntil(() => attackPhysical.IsPressed() == false);
-        attackHold = false;
+        physicalHold = true;
+        yield return new WaitUntil(() => !attackPhysical.IsPressed());
+        physicalHold = false;
     }
 
     void MagicAttack()
@@ -124,7 +124,7 @@ public class Player : MonoBehaviour
     IEnumerator MagicAttackPause()
     {
         magicHold = true;
-        yield return new WaitUntil(() => attackMagic.IsPressed() == false);
+        yield return new WaitUntil(() => !attackMagic.IsPressed());
         magicHold = false;
     }
 
