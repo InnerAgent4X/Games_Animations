@@ -150,6 +150,7 @@ public class Enemy : MonoBehaviour
         {
             // Sequence completed, destroy enemy
             GameManager.Instance.Score += 1;
+            GameManager.Instance.scoreCount();
             Destroy(gameObject);
         }
     }

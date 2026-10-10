@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Level02
   m_EditorClassIdentifier: Assembly-CSharp::Level_Settings
   VictoryScore: 50
-  PlayerHealth: 5
-  EnemySpawnRate: 1
+  PlayerHealth: 4
   EnemySpeed: 60
   PenaltyDuration: 1

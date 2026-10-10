@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     double dspNextBeatTime;
     double dspStartTime;
-    double beatInterval => levelSettings.EnemySpeed / bpm / subdivision;
+    double beatInterval => 60 / bpm / subdivision;
     long beatCount = 0;
 
 
@@ -27,8 +27,13 @@ public class GameManager : MonoBehaviour
     public Level_Settings levelSettings;
     public Player player;
     public GameObject resultsPanel;
+    public GameObject controlPanel;
     public TextMeshProUGUI resultsText;
-    
+    public TextMeshProUGUI resultsScore;
+    public TextMeshProUGUI scoreText;
+
+    private bool endlessMode = false;
+
 
     private void Awake()
     {
@@ -51,6 +56,10 @@ public class GameManager : MonoBehaviour
         dspStartTime = AudioSettings.dspTime + 0.1f;
         dspNextBeatTime = dspStartTime;
         resultsPanel.SetActive(false);
+        if(levelSettings.VictoryScore <= 0)
+        {
+            endlessMode = true;
+        }
     }
 
     void Update()
@@ -59,13 +68,17 @@ public class GameManager : MonoBehaviour
         {
             isGameOver = true;
             resultsText.text = "You Died...";
+            resultsScore.text = "Score: " + Score;
+            controlPanel.SetActive(false);
             resultsPanel.SetActive(true);
         }
         
-        if (Score >= levelSettings.VictoryScore)
+        if (!endlessMode && Score >= levelSettings.VictoryScore)
         {
             isYouWin = true;
             resultsText.text = "You Win!";
+            resultsScore.text = "Score: " + Score;
+            controlPanel.SetActive(false);
             resultsPanel.SetActive(true);
         }
 
@@ -79,6 +92,10 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void scoreCount()
+    {
+        scoreText.text = "Score: " + Score;
+    }
     void FireBeat(int beatNumber)
     {
         OnBeat?.Invoke(beatNumber);

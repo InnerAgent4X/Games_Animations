@@ -30,7 +30,6 @@ public class SpawnManager : MonoBehaviour
 
     bool subscribedToBeat = false;
 
-    // Start is one of Unity's built-in methods that runs before the first frame, and it only runs once. 
     void Start()
     {
         // Prints a warning if any of the variables are not set in the unity editor.
