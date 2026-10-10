@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public Transform[] player_positions;
     public Transform[] enemy_spawn;
     public Slider moveSlider;
+    public ParticleSystem moveParticle_right;
+    public ParticleSystem moveParticle_left;
 
     private float moveInput;
     private bool moveHold = false;
@@ -70,12 +72,14 @@ public class Player : MonoBehaviour
             if (moveInput > 0)
             {
                 transform.position = player_positions[1].position;
+                moveParticle_right.Play();
                 transform.LookAt(enemy_spawn[1].position);
             }
             //change to <= if using the slider UI element for movement
             else if (moveInput < 0)
             {
                 transform.position = player_positions[0].position;
+                moveParticle_left.Play();
                 transform.LookAt(enemy_spawn[0].position);
             }
         }
