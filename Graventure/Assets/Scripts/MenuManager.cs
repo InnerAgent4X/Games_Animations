@@ -16,6 +16,11 @@ public class MenuManager : MonoBehaviour
 
     private int selectedLevelIndex = -1;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 120; // Set the target frame rate
+    }
+
     private void Start()
     {
         int menuAdvance = PlayerPrefs.GetInt("menuAdvance", 0);

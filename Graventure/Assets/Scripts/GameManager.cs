@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Application.targetFrameRate = 120; // Set the target frame rate
     }
 
     void Start()
