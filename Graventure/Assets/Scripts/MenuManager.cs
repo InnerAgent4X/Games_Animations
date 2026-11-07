@@ -26,12 +26,24 @@ public class MenuManager : MonoBehaviour
         int menuAdvance = PlayerPrefs.GetInt("menuAdvance", 0);
         if (menuAdvance == 0) levelPanel.SetActive(false);
         else if (menuAdvance == 1) levelPanel.SetActive(true);
+        PlayerPrefs.SetInt("menuAdvance", 0);
+        PlayerPrefs.Save();
         levelInfoPanel.SetActive(false);
+    }
+
+    public void QuitButton()
+    {
+        Application.Quit();
     }
 
     public void StartButton()
     {
         levelPanel.SetActive(true);
+    }
+
+    public void BackButton()
+    {
+        levelPanel.SetActive(false);
     }
 
     public void LevelSelected(int levelIndex)

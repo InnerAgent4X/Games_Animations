@@ -56,8 +56,8 @@ public class Player : MonoBehaviour
         if (!GameManager.Instance.isGameOver && !GameManager.Instance.isYouWin)
         {
             //alternative input method for movement using a slider UI element (also changed the movement() method to accommodate this)
-            //moveInput = moveSlider.value;
-            moveInput = moveAction.ReadValue<float>();
+            moveInput = moveSlider.value;
+            //moveInput = moveAction.ReadValue<float>();
             movement();
             if (attackPhysical.WasPressedThisFrame() && canAttack) PhysicalAttack();
             if (attackMagic.WasPressedThisFrame() && canAttack) MagicAttack();
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
                 transform.LookAt(enemy_spawn[1].position);
             }
             //change to <= if using the slider UI element for movement
-            else if (moveInput < 0)
+            else if (moveInput <= 0)
             {
                 transform.position = player_positions[0].position;
                 moveParticle_left.Play();
