@@ -25,6 +25,12 @@ public class Enemy : MonoBehaviour
         pathEnd = end;
 
         transform.position = pathStart;
+
+        Vector3 direction = pathEnd - pathStart;
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
     }
 
     void OnEnable()
