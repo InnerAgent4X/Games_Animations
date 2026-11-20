@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections;
+using System.Security.Cryptography;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,8 +34,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI resultsText;
     public TextMeshProUGUI resultsScore;
     public TextMeshProUGUI scoreText;
+    public Image HoldTimerIMG;
 
     private bool endlessMode = false;
+    private Coroutine penaltyCoroutine;
 
 
     private void Awake()
@@ -118,6 +123,27 @@ public class GameManager : MonoBehaviour
         player.cooldown();
     }
 
+    public void PenaltyVisual(float time)
+    {
+        if (penaltyCoroutine != null)
+        {
+            StopCoroutine(penaltyCoroutine);
+        }
+        penaltyCoroutine = StartCoroutine(PenaltyVisualCoroutine(time));
+        HoldTimerIMG.fillAmount = 1f;
+    }
+
+    IEnumerator PenaltyVisualCoroutine(float time)
+    {
+        float elapsed = 0f;
+        while (elapsed < time)
+        {
+            elapsed += Time.deltaTime;
+            HoldTimerIMG.fillAmount = Mathf.Clamp01(1f - (elapsed / time));
+            yield return null;
+        }
+        HoldTimerIMG.fillAmount = 0f;
+    }
     public void ReturnToMenu()
     {
         PlayerPrefs.SetInt("menuAdvance", 1);

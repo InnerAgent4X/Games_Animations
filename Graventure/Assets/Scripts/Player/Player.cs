@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private bool moveHold = false;
     private bool physicalHold = false;
     private bool magicHold = false;
-    private bool canAttack = true;
+    public bool canAttack = true;
 
     private InputAction moveAction;
     private InputAction attackPhysical;
@@ -96,6 +96,7 @@ public class Player : MonoBehaviour
     IEnumerator AttackPenalty()
     {
         canAttack = false;
+        GameManager.Instance.PenaltyVisual(GameManager.Instance.levelSettings.PenaltyDuration);
         yield return new WaitForSeconds(GameManager.Instance.levelSettings.PenaltyDuration);
         canAttack = true;
     }
